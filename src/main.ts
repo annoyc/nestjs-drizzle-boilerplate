@@ -1,8 +1,9 @@
 // main.ts
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { patchNestJsSwagger } from 'nestjs-zod';
+import { JwtGuard } from './auth/guards/jwt.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +21,7 @@ async function bootstrap() {
   SwaggerModule.setup('api-docs', app, document);
 
   app.enableCors(); // 启用CORS
+  app.useGlobalGuards(new JwtGuard(app.get(Reflector)));
   await app.listen(3000);
   console.log(`应用程序运行在: http://localhost:3000`);
 }

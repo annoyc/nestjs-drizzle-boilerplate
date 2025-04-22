@@ -5,9 +5,9 @@ import { BadRequestException, PipeTransform } from '@nestjs/common';
 
 // Zod schema
 export const updatePostSchema = z.object({
-  title: z.string().min(1, "标题不能为空"),
-  content: z.string().min(1, "内容不能为空"),
-  authorId: z.number().int().min(1, "作者ID必须为正整数")
+  title: z.string().min(1, '标题不能为空'),
+  content: z.string().min(1, '内容不能为空'),
+  authorId: z.number().int().min(1, '作者ID必须为正整数'),
 });
 
 // 类型
@@ -19,21 +19,21 @@ export class UpdatePostDto {
     description: '帖子ID',
     example: 1,
     type: 'integer',
-    minimum: 1
+    minimum: 1,
   })
   id: number;
 
   @ApiProperty({
     description: '帖子标题',
     example: '更新后的标题',
-    minLength: 1
+    minLength: 1,
   })
   title: string;
 
   @ApiProperty({
     description: '帖子内容',
     example: '这是更新后的内容',
-    minLength: 1
+    minLength: 1,
   })
   content: string;
 
@@ -41,7 +41,7 @@ export class UpdatePostDto {
     description: '作者ID',
     example: 1,
     type: 'integer',
-    minimum: 1
+    minimum: 1,
   })
   authorId: number;
 }
@@ -57,9 +57,12 @@ export class ZodUpdatePostValidationPipe implements PipeTransform {
   }
 
   private formatError(error) {
-    return error.errors.map(e =>
-      `${this.getFieldName(e.path[0])}: ${this.translateMessage(e.message)}`
-    ).join(', ');
+    return error.errors
+      .map(
+        (e) =>
+          `${this.getFieldName(e.path[0])}: ${this.translateMessage(e.message)}`,
+      )
+      .join(', ');
   }
 
   private getFieldName(field: string): string {

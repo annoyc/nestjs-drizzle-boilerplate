@@ -18,8 +18,8 @@ import { z } from 'zod';
 export const users = mysqlTable('users', {
   userId: int('user_id').primaryKey().autoincrement().notNull(),
   userName: varchar('user_name', { length: 30 }).notNull(),
-  phone: varchar('phone', { length: 11 }).notNull().default(''),
-  sex: char('sex', { length: 1 }).notNull().default('0'),
+  // phone: varchar('phone', { length: 11 }).notNull().default(''),
+  // sex: char('sex', { length: 1 }).notNull().default('0'),
   password: varchar('password', { length: 200 }).notNull().default(''),
   createBy: varchar('create_by', { length: 64 }).notNull().default(''),
   createTime: datetime('create_time', { fsp: 6 }).default(
@@ -78,19 +78,20 @@ export const insertPostSchema = z.object({
 });
 
 export const insertUserSchema = z.object({
+  userId: z.number(),
   userName: z
     .string()
     .min(2, '用户名至少需要2个字符')
     .max(30, '用户名最多30个字符'),
-  phone: z.string().regex(/^1[3-9]\d{9}$/, '手机号格式不正确'),
-  sex: z.enum(['0', '1', '2'], {
-    errorMap: () => ({ message: '性别必须是：0-未知，1-男，2-女' }),
-  }),
+  // phone: z.string().regex(/^1[3-9]\d{9}$/, '手机号格式不正确'),
+  // sex: z.enum(['0', '1', '2'], {
+  //   errorMap: () => ({ message: '性别必须是：0-未知，1-男，2-女' }),
+  // }),
   password: z.string().min(6, '密码至少6个字符').max(20, '密码最多20个字符'),
 });
 
 // 类型导出
-export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = z.infer<typeof insertUserSchema>;
 export type InsertPost = z.infer<typeof insertPostSchema>;
 
 export type CreatePostDto = z.infer<typeof insertPostSchema>;
