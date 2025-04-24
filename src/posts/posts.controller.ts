@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 
@@ -15,6 +16,9 @@ import {
 } from './dtos/update-post.dto';
 import { CreatePostDto, ZodPostValidationPipe } from './dtos/create-post.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles.decorator';
+import { Role } from 'src/enums/role.enum';
+import { RolesGuard } from 'src/guards/roles.guard';
 
 @ApiTags('posts')
 @Controller('posts')
@@ -30,6 +34,8 @@ export class PostsController {
   }
 
   @Get()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @ApiOperation({ summary: '获取所有帖子' })
   @ApiResponse({ status: 200, description: '成功获取所有帖子' })
   findAll() {

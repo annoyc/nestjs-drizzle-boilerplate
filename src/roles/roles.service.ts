@@ -53,12 +53,11 @@ export class RolesService {
   }
 
   async findAll() {
-    const res = await this.drizzleService.db.query.roles.findMany({
-      with: {
-        roleId: true,
-        name: true,
-      },
-    });
+    // const res = await this.drizzleService.db.query.roles.findMany({
+    //   with: {
+    //     users: true,
+    //   },
+    // });
     // const result = await this.drizzleService.db
     //   .select({
     //     ruleId: roles.roleId,
@@ -69,6 +68,6 @@ export class RolesService {
     //   // 按角色字段分组（MySQL 需要明确分组字段）
     //   .groupBy(roles.roleId, roles.name);
     // return result;
-    return res;
+    // return res;
   }
 }

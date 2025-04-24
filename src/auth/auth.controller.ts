@@ -14,7 +14,7 @@ import {
   ZodRegisterRequestValidationPipe,
 } from './dtos/register-request.dto';
 import { LoginResponseDTO } from './dtos/login.dto';
-import { Public } from './decorators/public.decorator';
+import { Public } from '../decorators/public.decorator';
 import { RegisterResponseType } from './types/RegisterResponse';
 
 @Public()
