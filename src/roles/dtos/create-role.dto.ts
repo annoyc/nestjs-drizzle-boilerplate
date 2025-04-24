@@ -12,7 +12,7 @@ export const createRoleSchema = z.object({
 export type CreateRoleType = z.infer<typeof createRoleSchema>;
 
 // Swagger文档用DTO类
-export class CreatePostDto {
+export class CreateRoleDto {
   @ApiProperty({
     description: '角色名',
     example: '示例角色名',

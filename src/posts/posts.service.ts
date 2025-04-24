@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UpdatePostDto } from './dto/update-post.dto';
+import { UpdatePostDto } from './dtos/update-post.dto';
 import { DrizzleService } from '../db/drizzle.service';
 import { and, eq, sql, getTableColumns } from 'drizzle-orm';
 import { ZodError } from 'zod';

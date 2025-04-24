@@ -12,8 +12,8 @@ import { PostsService } from './posts.service';
 import {
   UpdatePostDto,
   ZodUpdatePostValidationPipe,
-} from './dto/update-post.dto';
-import { CreatePostDto, ZodPostValidationPipe } from './dto/create-post.dto';
+} from './dtos/update-post.dto';
+import { CreatePostDto, ZodPostValidationPipe } from './dtos/create-post.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('posts')

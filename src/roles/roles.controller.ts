@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateRoleType, ZodRoleValidationPipe } from './dto/create-role.dto';
+import { CreateRoleDto, ZodRoleValidationPipe } from './dtos/create-role.dto';
 
 @ApiTags('角色管理')
 @Controller('roles')
@@ -11,8 +11,8 @@ export class RolesController {
   @ApiOperation({ summary: '创建角色' })
   @ApiResponse({ status: 200, description: '创建角色成功' })
   @ApiResponse({ status: 400, description: '数据验证失败' })
-  create(@Body(new ZodRoleValidationPipe()) createPostDto: CreateRoleType) {
-    return this.rolesService.create(createPostDto);
+  create(@Body(new ZodRoleValidationPipe()) createRoleDto: CreateRoleDto) {
+    return this.rolesService.create(createRoleDto);
   }
 
   @Get()

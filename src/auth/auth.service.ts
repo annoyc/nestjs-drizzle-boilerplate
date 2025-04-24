@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { LoginResponseType } from './types/LoginResponseType';
 import { UsersService } from 'src/users/users.service';
 import { User } from 'src/db/schema/user';
 import { RegisterRequestDto } from './dtos/register-request.dto';
+import { LoginResponseDTO } from './dtos/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +23,7 @@ export class AuthService {
     }
     return user;
   }
-  login(user: User): LoginResponseType {
+  login(user: User): LoginResponseDTO {
     const payload = { userName: user.userName };
     return {
       token: this.jwtService.sign(payload),
@@ -31,7 +31,7 @@ export class AuthService {
       userName: user.userName,
     };
   }
-  async register(user: RegisterRequestDto): Promise<LoginResponseType> {
+  async register(user: RegisterRequestDto): Promise<LoginResponseDTO> {
     const existingUser = await this.usersService.findOneByUserName(
       user.userName,
     );

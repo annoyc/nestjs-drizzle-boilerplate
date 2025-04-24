@@ -13,9 +13,9 @@ import {
   RegisterRequestDto,
   ZodRegisterRequestValidationPipe,
 } from './dtos/register-request.dto';
-import { LoginResponseDTO } from './dtos/login-response.dto';
-import { RegisterResponseDTO } from './dtos/register-response.dto';
+import { LoginResponseDTO } from './dtos/login.dto';
 import { Public } from './decorators/public.decorator';
+import { RegisterResponseType } from './types/RegisterResponse';
 
 @Public()
 @Controller('auth')
@@ -32,7 +32,7 @@ export class AuthController {
   async register(
     @Body(new ZodRegisterRequestValidationPipe())
     registerBody: RegisterRequestDto,
-  ): Promise<RegisterResponseDTO | BadRequestException> {
+  ): Promise<RegisterResponseType | BadRequestException> {
     return await this.authService.register(registerBody);
   }
 }

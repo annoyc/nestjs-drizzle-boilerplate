@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { DrizzleService } from 'src/db/drizzle.service';
-import { CreateRoleType } from './dto/create-role.dto';
+import { CreateRoleType } from './dtos/create-role.dto';
 import { roles } from 'src/db/schema/role';
 import { eq, sql } from 'drizzle-orm';
 import { ZodError } from 'zod';

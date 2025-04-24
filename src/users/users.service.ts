@@ -1,5 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { UUID } from 'crypto';
+import { Injectable } from '@nestjs/common';
 import { DrizzleService } from 'src/db/drizzle.service';
 import { User, users } from 'src/db/schema/user';
 import { eq } from 'drizzle-orm';
