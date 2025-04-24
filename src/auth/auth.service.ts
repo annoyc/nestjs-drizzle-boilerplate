@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { AccessToken } from './types/AccessToken';
+import { LoginResponseType } from './types/LoginResponseType';
 import { UsersService } from 'src/users/users.service';
-import { User } from 'src/db/schema';
+import { User } from 'src/db/schema/user';
 import { RegisterRequestDto } from './dtos/register-request.dto';
 
 @Injectable()
@@ -15,19 +15,23 @@ export class AuthService {
   async validateUser(userName: string, password: string): Promise<User> {
     const user: User = await this.usersService.findOneByUserName(userName);
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException('用户未找到');
     }
     const isMatch: boolean = bcrypt.compareSync(password, user.password);
     if (!isMatch) {
-      throw new BadRequestException('Password does not match');
+      throw new BadRequestException('用户名或密码不匹配');
     }
     return user;
   }
-  async login(user: User): Promise<AccessToken> {
-    const payload = { userName: user.userName, id: user.userId };
-    return { access_token: this.jwtService.sign(payload) };
+  login(user: User): LoginResponseType {
+    const payload = { userName: user.userName };
+    return {
+      token: this.jwtService.sign(payload),
+      userId: user.userId,
+      userName: user.userName,
+    };
   }
-  async register(user: RegisterRequestDto): Promise<AccessToken> {
+  async register(user: RegisterRequestDto): Promise<LoginResponseType> {
     const existingUser = await this.usersService.findOneByUserName(
       user.userName,
     );
@@ -36,8 +40,9 @@ export class AuthService {
     }
     const hashedPassword = await bcrypt.hash(user.password, 10);
     const newUser: User = { ...user, password: hashedPassword };
-    await this.usersService.create(newUser);
-    console.log('newUser', newUser);
-    return this.login(newUser);
+    const createRes = await this.usersService.create(newUser);
+    // return this.login(newUser);
+    const payload = { userName: newUser.userName, id: createRes.userId };
+    return { token: this.jwtService.sign(payload) };
   }
 }

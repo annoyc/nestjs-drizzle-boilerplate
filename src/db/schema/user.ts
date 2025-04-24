@@ -1,22 +1,12 @@
-import {
-  mysqlTable,
-  int,
-  varchar,
-  char,
-  timestamp,
-  datetime,
-  primaryKey,
-  mysqlEnum,
-  text,
-  uniqueIndex,
-  index,
-} from 'drizzle-orm/mysql-core';
+import { mysqlTable, int, varchar, datetime } from 'drizzle-orm/mysql-core';
 import { sql, relations } from 'drizzle-orm';
 import { z } from 'zod';
+import { usersToRoles } from './usersToRoles';
 
 // 用户表定义
 export const users = mysqlTable('users', {
   userId: int('user_id').primaryKey().autoincrement().notNull(),
+  // roleId: int('role_id').notNull().default(1),
   userName: varchar('user_name', { length: 30 }).notNull(),
   // phone: varchar('phone', { length: 11 }).notNull().default(''),
   // sex: char('sex', { length: 1 }).notNull().default('0'),
@@ -34,6 +24,7 @@ export const users = mysqlTable('users', {
 // 用户表关系
 export const usersRelations = relations(users, ({ many }) => ({
   posts: many(posts),
+  usersToRoles: many(usersToRoles),
 }));
 
 // 帖子表定义

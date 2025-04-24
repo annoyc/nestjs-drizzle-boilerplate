@@ -5,4 +5,4 @@ import { DrizzleService } from './drizzle.service';
   providers: [DrizzleService],
   exports: [DrizzleService],
 })
-export class DbModule {}
+export class DrizzleModule {}

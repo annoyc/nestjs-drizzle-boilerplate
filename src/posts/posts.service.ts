@@ -1,16 +1,12 @@
-import { insertPostSchema, posts, users } from '../db/schema';
+import { posts, users } from '../db/schema/user';
 import {
   BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { DrizzleService } from '../db/drizzle.service';
 import { and, eq, sql, getTableColumns } from 'drizzle-orm';
-import { MySqlRawQueryResult } from 'drizzle-orm/mysql2';
-import { QueryBuilder } from 'drizzle-orm/mysql-core';
-import { createSelectSchema } from 'drizzle-zod';
 import { ZodError } from 'zod';
 @Injectable()
 export class PostsService {

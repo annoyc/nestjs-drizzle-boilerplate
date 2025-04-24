@@ -1,3 +1,3 @@
-import { AccessToken } from '../types/AccessToken';
+import { LoginResponseType } from '../types/LoginResponseType';
 
-export type LoginResponseDTO = AccessToken;
+export type LoginResponseDTO = LoginResponseType;

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UUID } from 'crypto';
 import { DrizzleService } from 'src/db/drizzle.service';
-import { User, users } from 'src/db/schema';
+import { User, users } from 'src/db/schema/user';
 import { eq } from 'drizzle-orm';
 
 @Injectable()
@@ -16,9 +16,18 @@ export class UsersService {
   //   return this.usersRepository.findOneBy({ id });
   // }
 
-  create(user: User): Promise<User> {
-    const result = this.drizzle.db.insert(users).values(user);
-    return result;
+  async create(user: User) {
+    const result = await this.drizzle.db
+      .insert(users)
+      .values(user)
+      .$returningId();
+    if (result[0] && result[0].userId) {
+      return {
+        ...user,
+        userId: result[0].userId,
+      };
+    }
+    return null;
   }
 
   // update(userId: UUID, userInformation: Partial<User>): Promise<> {
@@ -28,7 +37,9 @@ export class UsersService {
   async findOne(userName: string) {
     const result = await this.drizzle.db
       .select({
-        user: users,
+        userName: users.userName,
+        userId: users.userId,
+        password: users.password,
       })
       .from(users)
       .where(eq(users.userName, userName));

@@ -3,7 +3,7 @@ import { drizzle } from 'drizzle-orm/mysql2';
 import * as dotenv from 'dotenv';
 import * as mysql from 'mysql2/promise';
 import { Logger } from 'drizzle-orm/logger';
-// import * as schema from './schema';
+import * as schema from './schema';
 // import { seed } from 'drizzle-seed';
 dotenv.config();
 
@@ -45,7 +45,11 @@ export class DrizzleService implements OnModuleInit {
       }
 
       // 使用 drizzle 创建数据库实例，并传递日志记录器
-      this.db = drizzle(pool, { logger: new MyLogger() });
+      this.db = drizzle(pool, {
+        schema,
+        mode: 'default',
+        logger: new MyLogger(),
+      });
       // await seed(this.db, schema).refine((f) => ({
       //   users: {
       //     count: 5,
