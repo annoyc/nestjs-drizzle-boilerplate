@@ -24,7 +24,7 @@ export const users = mysqlTable('users', {
 // 用户表关系
 export const usersRelations = relations(users, ({ many }) => ({
   posts: many(posts),
-  usersToRoles: many(usersToRoles),
+  roles: many(usersToRoles),
 }));
 
 // 帖子表定义

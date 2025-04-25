@@ -9,8 +9,7 @@ import { roles } from 'src/db/schema/role';
 import { eq, sql } from 'drizzle-orm';
 import { ZodError } from 'zod';
 import { users } from 'src/db/schema/user';
-import { drizzle } from 'drizzle-orm/mysql2';
-import * as schema from 'src/db/schema';
+import { usersToRoles } from 'src/db/schema/usersToRoles';
 @Injectable()
 export class RolesService {
   constructor(private readonly drizzleService: DrizzleService) {}
@@ -53,11 +52,12 @@ export class RolesService {
   }
 
   async findAll() {
-    // const res = await this.drizzleService.db.query.roles.findMany({
-    //   with: {
-    //     users: true,
-    //   },
-    // });
+    const res = await this.drizzleService.db
+      .select(roles)
+      .from(usersToRoles)
+      .leftJoin(users, eq(usersToRoles.userId, users.userId))
+      .leftJoin(roles, eq(usersToRoles.roleId, roles.roleId))
+      .where(eq(roles.roleId, 1));
     // const result = await this.drizzleService.db
     //   .select({
     //     ruleId: roles.roleId,
@@ -68,6 +68,6 @@ export class RolesService {
     //   // 按角色字段分组（MySQL 需要明确分组字段）
     //   .groupBy(roles.roleId, roles.name);
     // return result;
-    // return res;
+    return res;
   }
 }

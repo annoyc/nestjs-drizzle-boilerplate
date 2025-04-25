@@ -18,7 +18,7 @@ export const roles = mysqlTable('roles', {
 });
 
 export const rolesRelations = relations(roles, ({ many }) => ({
-  usersToRoles: many(usersToRoles),
+  users: many(usersToRoles),
 }));
 
 export const insertRoleSchema = z.object({

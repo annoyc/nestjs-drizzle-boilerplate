@@ -50,4 +50,27 @@ export class UsersService {
 
     return result[0];
   }
+
+  async findAll() {
+    // const result = await this.drizzle.db
+    //   .select({
+    //     userName: users.userName,
+    //     userId: users.userId,
+    //   })
+    //   .from(users);
+    const result = await this.drizzle.db.query.users.findMany({
+      columns: {
+        userId: true,
+        userName: true,
+      },
+      with: {
+        roles: {
+          with: {
+            role: true,
+          },
+        },
+      },
+    });
+    return result;
+  }
 }

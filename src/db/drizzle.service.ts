@@ -50,6 +50,7 @@ export class DrizzleService implements OnModuleInit {
         mode: 'default',
         logger: new MyLogger(),
       });
+      console.log('this.db', this.db);
       // await seed(this.db, schema).refine((f) => ({
       //   users: {
       //     count: 5,
