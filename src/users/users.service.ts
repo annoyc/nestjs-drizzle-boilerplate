@@ -64,11 +64,7 @@ export class UsersService {
         userName: true,
       },
       with: {
-        roles: {
-          with: {
-            role: true,
-          },
-        },
+        roles: true,
       },
     });
     return result;

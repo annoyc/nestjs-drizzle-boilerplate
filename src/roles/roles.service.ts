@@ -52,22 +52,22 @@ export class RolesService {
   }
 
   async findAll() {
-    const res = await this.drizzleService.db
-      .select(roles)
-      .from(usersToRoles)
-      .leftJoin(users, eq(usersToRoles.userId, users.userId))
-      .leftJoin(roles, eq(usersToRoles.roleId, roles.roleId))
-      .where(eq(roles.roleId, 1));
-    // const result = await this.drizzleService.db
-    //   .select({
-    //     ruleId: roles.roleId,
-    //     ruleName: roles.name,
-    //   })
-    //   .from(roles)
-    //   .leftJoin(users, eq(roles.roleId, users.roleId))
-    //   // 按角色字段分组（MySQL 需要明确分组字段）
-    //   .groupBy(roles.roleId, roles.name);
-    // return result;
-    return res;
+    // const res = await this.drizzleService.db
+    //   .select(roles)
+    //   .from(usersToRoles)
+    //   .leftJoin(users, eq(usersToRoles.userId, users.userId))
+    //   .leftJoin(roles, eq(usersToRoles.roleId, roles.roleId))
+    //   .where(eq(roles.roleId, 1));
+    const result = await this.drizzleService.db.query.roles.findMany({
+      columns: {
+        roleId: true,
+        roleName: true,
+      },
+      with: {
+        users: true,
+      },
+    });
+    return result;
+    // return res;
   }
 }
